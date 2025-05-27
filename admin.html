@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head><title>관리자 페이지</title></head>
+<body>
+  <h1>관리자 페이지</h1>
+  <ul>
+    {% for qa in qa_data %}
+      {% set i = loop.index0 %}
+      <li>
+        <strong>{{ qa.question }}</strong> (작성자: {{ qa.author }})<br>
+        {% if qa.answer %}
+          답변: {{ qa.answer }} ({{ qa.answered_by }})<br>
+        {% else %}
+          <em>아직 답변 없음</em><br>
+        {% endif %}
+        채택 상태: {{ '채택됨' if qa.accepted else '미채택' }}
+        <form method="post" action="{{ url_for('delete_question', qa_id=i) }}" style="display:inline;">
+          <button type="submit" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a href="{{ url_for('index') }}">← 메인으로 돌아가기</a></p>
+</body>
+</html>
